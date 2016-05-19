@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 public class HibernateDaoHelper {
 
 	@Autowired
-	@Qualifier("gestionPymeSessionFactory")
+	@Qualifier("ejercicioNaventSessionFactory")
 	private SessionFactory naventSessionFactory;
 
 	public Session getSession() {
