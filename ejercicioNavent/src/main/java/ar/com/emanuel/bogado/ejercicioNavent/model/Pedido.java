@@ -6,7 +6,12 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
-
+/**
+ * 
+ * @author Emanuel Bogado
+ * @emailto: seebogado@yahoo.com
+ * @Since 19/05/2016	
+ */
 @Entity
 @Table(name="PEDIDO")
 public class Pedido {
@@ -14,7 +19,7 @@ public class Pedido {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name="ID_PEDIDO")
-	private Integer idPedido;
+	private Long idPedido;
 	@Column(name="NOMBRE")
 	private String nombre;
 	@Column(name="MONTO")
@@ -23,10 +28,11 @@ public class Pedido {
 	private Float descuento;
 	
 	
-	public Integer getIdPedido() {
+	
+	public Long getIdPedido() {
 		return idPedido;
 	}
-	public void setIdPedido(Integer idPedido) {
+	public void setIdPedido(Long idPedido) {
 		this.idPedido = idPedido;
 	}
 	public String getNombre() {

@@ -1,6 +1,5 @@
 package ar.com.emanuel.bogado.ejercicioNavent.model;
 
-
 import javax.sql.DataSource;
 
 import org.junit.Test;
@@ -14,7 +13,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.transaction.TransactionConfiguration;
 import org.springframework.transaction.annotation.Transactional;
 
-import ar.com.emanuel.bogado.ejercicioNavent.dao.EjercicioNaventGenericDao;
+import ar.com.emanuel.bogado.ejercicioNavent.cache.BumexMemcached;
 
 /**
  * 
@@ -25,12 +24,10 @@ import ar.com.emanuel.bogado.ejercicioNavent.dao.EjercicioNaventGenericDao;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"/ar/com/emanuel/bogado/ejercicioNavent/spring/ApplicationContext.xml"})
 @Transactional
-@TransactionConfiguration(transactionManager = "ejercicioNaventTransactionManager", defaultRollback = true)	
-public class TestGenericDaoNavent extends AbstractTransactionalJUnit4SpringContextTests{
-	
-	
+@TransactionConfiguration(transactionManager = "ejercicioNaventTransactionManager", defaultRollback = true)
+public class TestConMemCache extends AbstractTransactionalJUnit4SpringContextTests{
 	@Autowired
-	private EjercicioNaventGenericDao ejercicioNaventGenericDao;
+	private BumexMemcached bumexMemcached;
 	
 	@Autowired
 	public void setDataSource(@Qualifier("EJERCICIO_NAVENT") DataSource dataSource) {
@@ -39,21 +36,13 @@ public class TestGenericDaoNavent extends AbstractTransactionalJUnit4SpringConte
 	
 	@Test
 	@Rollback(false)
-	public void testInsertar(){
-		Pedido pedidoAPersistir= new Pedido();
-		pedidoAPersistir.setDescuento(15F);
-		pedidoAPersistir.setMonto(2500D);
-		pedidoAPersistir.setNombre("Primer Pedido a persistir");
-		ejercicioNaventGenericDao.saveOrUpdate(pedidoAPersistir);
+	public void testSet(){
+		Pedido pedido= new Pedido();
+		pedido.setDescuento(10F);
+		pedido.setMonto(10000D);
+		pedido.setNombre("Este es el pedido numero 3");
+		//Le pongo null porque no se realmente que utilizaría ese cache. En caso de implementar el codigo sería diferente.
+		bumexMemcached.set(null, pedido);
 	}
 	
-	
-	@Test
-	@Rollback(false)
-	public void testUpdate(){
-		Pedido pedido = ejercicioNaventGenericDao.get(Pedido.class, 1L);
-		pedido.setNombre("El nombre del primer dato fue modificado");
-		ejercicioNaventGenericDao.saveOrUpdate(pedido);
-	}
-
 }
